@@ -1,0 +1,12 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.correct-position {
+  border: 2px solid green;
+}
+
+.incorrect-position {
+  border: 2px solid yellow;
+}
