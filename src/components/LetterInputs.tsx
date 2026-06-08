@@ -1,48 +1,23 @@
-type LetterInputsProps = { disable: boolean; classNames: string[] };
+type LetterInputsProps = {
+  disable: boolean;
+  classNames: string[];
+  saveTypedLetters(index: number, value: string): void;
+};
 
 function LettersInputs(props: LetterInputsProps) {
   return (
     <div>
-      <input
-        className={props.classNames[0]}
-        type="text"
-        name="char1"
-        maxLength={1}
-        minLength={1}
-        disabled={props.disable}
-      />
-      <input
-        className={props.classNames[1]}
-        type="text"
-        name="char2"
-        maxLength={1}
-        minLength={1}
-        disabled={props.disable}
-      />
-      <input
-        className={props.classNames[2]}
-        type="text"
-        name="char3"
-        maxLength={1}
-        minLength={1}
-        disabled={props.disable}
-      />
-      <input
-        className={props.classNames[3]}
-        type="text"
-        name="char4"
-        maxLength={1}
-        minLength={1}
-        disabled={props.disable}
-      />
-      <input
-        className={props.classNames[4]}
-        type="text"
-        name="char5"
-        maxLength={1}
-        minLength={1}
-        disabled={props.disable}
-      />
+      {[0, 1, 2, 3, 4].map(index => (
+        <input
+          className={props.classNames[index]}
+          type="text"
+          name={`char${index}`}
+          maxLength={1}
+          minLength={1}
+          disabled={props.disable}
+          onChange={event => props.saveTypedLetters(index, event.target.value)}
+        />
+      ))}
     </div>
   );
 }
