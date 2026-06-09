@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import LetterInputs from "./components/LetterInputs";
 import "./App.css";
 
@@ -7,6 +7,7 @@ function App() {
 
   const [attemptNumber, setAttemptNumber] = useState(0);
   const [emptyInputMessage, setEmptyInputMessage] = useState("");
+  const firstInputs = useRef<(HTMLInputElement | null)[]>([]);
 
   const [inputsStyle, setInputsStyle] = useState([
     ["", "", "", "", ""],
@@ -85,6 +86,10 @@ function App() {
     setAttemptNumber(attemptNumber + 1);
   };
 
+  useEffect(() => {
+    firstInputs.current[attemptNumber]?.focus();
+  }, [attemptNumber]);
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -94,6 +99,9 @@ function App() {
             disable={attemptNumber === index ? false : true}
             classes={inputsStyle[index]}
             setEmptyInputMessage={setEmptyInputMessage}
+            setFirstInput={(element: HTMLInputElement | null) => {
+              firstInputs.current[index] = element;
+            }}
           ></LetterInputs>
         ))}
 

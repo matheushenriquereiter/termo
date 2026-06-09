@@ -4,6 +4,7 @@ type LetterInputsProps = {
   disable: boolean;
   classes: string[];
   setEmptyInputMessage(value: string): void;
+  setFirstInput(input: HTMLInputElement): void;
 };
 
 function LettersInputs(props: LetterInputsProps) {
@@ -42,6 +43,14 @@ function LettersInputs(props: LetterInputsProps) {
           key={index}
           className={props.classes[index]}
           ref={element => {
+            if (element === null) {
+              return;
+            }
+
+            if (index === 0) {
+              props.setFirstInput(element);
+            }
+
             inputRefs.current[index] = element;
           }}
           type="text"
