@@ -84,11 +84,12 @@ function App() {
     setInputsStyle(newInputsStyle);
 
     setAttemptNumber(attemptNumber + 1);
+    firstInputs.current[attemptNumber]?.focus();
   };
 
   useEffect(() => {
     firstInputs.current[attemptNumber]?.focus();
-  }, [attemptNumber]);
+  });
 
   return (
     <>

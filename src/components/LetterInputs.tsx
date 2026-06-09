@@ -14,19 +14,18 @@ function LettersInputs(props: LetterInputsProps) {
     props.setEmptyInputMessage("");
 
     if (value.length === 1) {
-      let allInputsFilled = false;
+      let foundEmptyAhead = false;
 
-      for (let i = index; i < 5; i++) {
+      for (let i = index + 1; i < 5; i++) {
         if (!inputRefs.current[i]?.value) {
           inputRefs.current[i]?.focus();
+          foundEmptyAhead = true;
           break;
         }
-
-        allInputsFilled = true;
       }
 
-      if (allInputsFilled) {
-        for (let i = 0; i < 5; i++) {
+      if (!foundEmptyAhead) {
+        for (let i = 0; i < index; i++) {
           if (!inputRefs.current[i]?.value) {
             inputRefs.current[i]?.focus();
             break;
@@ -43,11 +42,9 @@ function LettersInputs(props: LetterInputsProps) {
           key={index}
           className={props.classes[index]}
           ref={element => {
-            if (element === null) {
-              return;
-            }
+            if (element === null) return;
 
-            if (index === 0) {
+            if (index === 0 && inputRefs.current[0] !== element) {
               props.setFirstInput(element);
             }
 
