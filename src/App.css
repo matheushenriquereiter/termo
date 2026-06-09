@@ -10,3 +10,7 @@ form {
 .incorrect-position {
   border: 2px solid yellow;
 }
+
+.empty-input-message {
+  color: red;
+}

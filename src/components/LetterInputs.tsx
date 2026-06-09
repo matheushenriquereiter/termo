@@ -2,15 +2,15 @@ import { useRef } from "react";
 
 type LetterInputsProps = {
   disable: boolean;
-  classNames: string[];
-  saveTypedLetters(index: number, value: string): void;
+  classes: string[];
+  setEmptyInputMessage(value: string): void;
 };
 
 function LettersInputs(props: LetterInputsProps) {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (index: number, value: string) => {
-    props.saveTypedLetters(index, value);
+    props.setEmptyInputMessage("");
 
     if (value.length === 1) {
       let allInputsFilled = false;
@@ -40,7 +40,7 @@ function LettersInputs(props: LetterInputsProps) {
       {[0, 1, 2, 3, 4].map(index => (
         <input
           key={index}
-          className={props.classNames[index]}
+          className={props.classes[index]}
           ref={element => {
             inputRefs.current[index] = element;
           }}
@@ -59,6 +59,7 @@ function LettersInputs(props: LetterInputsProps) {
               inputRefs.current[index - 1]?.focus();
             }
           }}
+          autoComplete="off"
         />
       ))}
     </div>

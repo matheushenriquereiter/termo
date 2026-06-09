@@ -6,7 +6,7 @@ function App() {
   const randomWord = "carro";
 
   const [attemptNumber, setAttemptNumber] = useState(0);
-  const [typedLetters, setTypedLetters] = useState(["", "", "", "", ""]);
+  const [emptyInputMessage, setEmptyInputMessage] = useState("");
 
   const [inputsStyle, setInputsStyle] = useState([
     ["", "", "", "", ""],
@@ -34,8 +34,18 @@ function App() {
   const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const typedWord = typedLetters.join("");
+    const form = event.currentTarget;
+    const activeInputs = Array.from(
+      form.querySelectorAll("input:not([disabled])"),
+    ) as HTMLInputElement[];
+
+    const typedWord = activeInputs.map(input => input.value).join("");
     const randomWordLettersAmount = getLettersAmount(randomWord);
+
+    if (typedWord.length != 5) {
+      setEmptyInputMessage("Termo inválido");
+      return;
+    }
 
     const currentInputsStyle = [];
 
@@ -75,12 +85,6 @@ function App() {
     setAttemptNumber(attemptNumber + 1);
   };
 
-  const saveTypedLetters = (index: number, value: string) => {
-    const newLetters = [...typedLetters];
-    newLetters[index] = value;
-    setTypedLetters(newLetters);
-  };
-
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -88,12 +92,13 @@ function App() {
           <LetterInputs
             key={index}
             disable={attemptNumber === index ? false : true}
-            saveTypedLetters={saveTypedLetters}
-            classNames={inputsStyle[index]}
+            classes={inputsStyle[index]}
+            setEmptyInputMessage={setEmptyInputMessage}
           ></LetterInputs>
         ))}
 
         <button>Enter</button>
+        <p className="empty-input-message">{emptyInputMessage}</p>
       </form>
     </>
   );
